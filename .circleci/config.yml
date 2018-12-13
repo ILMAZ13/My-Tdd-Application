@@ -4,13 +4,14 @@ references:
     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
   restore_cache: &restore_cache
-    <<: *cache_key
+      restore_cache:
+        <<: *cache_key
 
   save_cache: &save_cache
     save_cache:
-      paths:
-        ~/.gradle
       <<: *cache_key
+      paths:
+         ~/.gradle
 
   workspace: &workspace
     ~/workspace
