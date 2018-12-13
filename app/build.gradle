@@ -65,6 +65,5 @@ gnag {
 
     github {
         repoName 'ILMAZ13/My-Tdd-Application'
-        authToken '21ac6e8aa34ddc615cc59ed1a669ef0596ee677d'
     }
 }
