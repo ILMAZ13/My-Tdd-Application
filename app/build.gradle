@@ -37,12 +37,12 @@ gnag {
 
     checkstyle {
         enabled true
-        reporterConfig project.file('../quality/checkstyle.xml')
+        reporterConfig project.file('../quality/checkstyle-config.xml')
     }
 
     pmd {
         enabled true
-        reporterConfig project.file('../quality/pmd.xml')
+        reporterConfig project.file('../quality/pmd-ruleset.xml')
     }
 
     findbugs {
@@ -65,7 +65,7 @@ gnag {
 
     github {
         repoName 'ILMAZ13/My-Tdd-Application'
-        authToken 'c2cadd240ef610a3ca7512b9ce3bb26ef3c5b0ad'
+        authToken 'b645da230d8124e642d0d95e96f1a1856bd24109'
         issueNumber '1'
     }
 }
