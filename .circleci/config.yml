@@ -60,6 +60,9 @@ jobs:
         - store_artifacts:
             path: app/build/reports/
             destination: /reports/
+        - store_artifacts:
+            path: app/build/outputs/gnag
+            destination: /reports-gnag/
 #      test
 #      - run:
 #          name: Run Tests
