@@ -1,0 +1,91 @@
+version: 2
+references:
+  cache_key: &cache_key
+    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
+  restore_cache: &restore_cache
+    <<: *cache_key
+
+  save_cache: &save_cache
+    save_cache:
+      paths:
+        ~/.gradle
+      <<: *cache_key
+
+  workspace: &workspace
+    ~/workspace
+
+  attach_release_workspace: &attach_release_workspace
+    attach_workspace:
+      at: *workspace
+
+  persist_release_workspace: &persist_release_workspace
+    persist_to_workspace:
+      root: *workspace
+      paths:
+        - app/build
+
+  android_config: &android_config
+    working_directory: *workspace
+        docker:
+          - image: circleci/android:api-28-alpha
+        environment:
+          JVM_OPTS: -Xmx3200m
+
+jobs:
+  build:
+    <<: *android_config
+    steps:
+      - checkout
+      - *restore_cache
+#      - run:
+#         name: Chmod permissions
+#         command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - *save_cache
+      - *persist_release_workspace
+
+  check_style:
+      <<: *android_config
+      steps:
+        - checkout
+        - *attach_release_workspace
+        - *restore_cache
+        - run:
+            name: Run Checkstyle
+            command: ./circle-ci-build.sh
+        - store_artifacts:
+            path: app/build/reports/
+            destination: /reports/
+#      test
+#      - run:
+#          name: Run Tests
+#          command: ./gradlew lint test
+#      - store_artifacts:
+#          path: app/build/reports
+#          destination: reports
+#      - store_test_results:
+#          path: app/build/test-results
+      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /^.*/
+      - check_style:
+          requires:
+              - build
+          filters:
+            tags:
+              only: /^.*/
+#      - test_unit:
+#          requires:
+#              - build
+#          filters:
+#            tags:
+#              only: /^.*/

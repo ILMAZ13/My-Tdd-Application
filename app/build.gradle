@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'gnag'
 
 android {
     compileSdkVersion 28
@@ -28,4 +29,43 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1-beta01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1-beta01'
+}
+
+gnag {
+    enabled true
+    failOnError true
+
+    checkstyle {
+        enabled true
+        reporterConfig project.file('../quality/checkstyle.xml')
+    }
+
+    pmd {
+        enabled true
+        reporterConfig project.file('../quality/pmd.xml')
+    }
+
+    findbugs {
+        enabled false
+    }
+
+    ktlint {
+        enabled true
+        toolVersion "0.29.0"
+    }
+
+    detekt {
+        enabled false
+    }
+
+    androidLint {
+        enabled true
+        severity 'Error'
+    }
+
+    github {
+        repoName 'ILMAZ13/My-Tdd-Application'
+        authToken 'c2cadd240ef610a3ca7512b9ce3bb26ef3c5b0ad'
+        issueNumber '1'
+    }
 }
