@@ -39,9 +39,6 @@ jobs:
     steps:
       - checkout
       - *restore_cache
-#      - run:
-#         name: Chmod permissions
-#         command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
@@ -56,7 +53,14 @@ jobs:
         - *restore_cache
         - run:
             name: Run Checkstyle
-            command: ./circle-ci-build.sh
+            command: >
+              if [[ -z "${CI_PULL_REQUEST}" ]]; then
+                ./gradlew gnagCheck
+              else
+                ./gradlew gnagReport \
+                  -PauthToken="${PR_BOT_AUTH_TOKEN}" \
+                  -PissueNumber="${CI_PULL_REQUEST##*/}"
+              fi
         - store_artifacts:
             path: app/build/reports/
             destination: /reports/
