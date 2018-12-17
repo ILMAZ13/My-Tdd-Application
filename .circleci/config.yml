@@ -37,6 +37,7 @@ jobs:
   build:
     <<: *android_config
     steps:
+      - checkout
       - run:
           name: Configuring git
           command: ./configure_git.sh
