@@ -58,12 +58,12 @@ gnag {
     failOnError true
 
     checkstyle {
-        enabled true
+        enabled false
         reporterConfig project.file('../quality/checkstyle-config.xml')
     }
 
     pmd {
-        enabled true
+        enabled false
         reporterConfig project.file('../quality/pmd-ruleset.xml')
     }
 
@@ -72,7 +72,7 @@ gnag {
     }
 
     ktlint {
-        enabled true
+        enabled false
         toolVersion "0.29.0"
     }
 
@@ -81,7 +81,7 @@ gnag {
     }
 
     androidLint {
-        enabled true
+        enabled false
         severity 'Error'
     }
 
