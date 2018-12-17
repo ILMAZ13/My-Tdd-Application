@@ -41,7 +41,6 @@ jobs:
       - run:
           name: Configuring git
           command: ./configure_git.sh
-      - checkout
       - *restore_cache
       - run:
           name: Download Dependencies
@@ -53,6 +52,9 @@ jobs:
       <<: *android_config
       steps:
         - checkout
+        - run:
+            name: Configuring git
+            command: ./configure_git.sh
         - *attach_release_workspace
         - *restore_cache
         - run:
