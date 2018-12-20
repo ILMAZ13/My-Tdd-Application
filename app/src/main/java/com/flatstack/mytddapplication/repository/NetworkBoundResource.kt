@@ -10,9 +10,8 @@ import com.flatstack.mytddapplication.api.ApiErrorResponse
 import com.flatstack.mytddapplication.api.ApiResponse
 import com.flatstack.mytddapplication.api.ApiSuccessResponse
 import com.flatstack.mytddapplication.entities.Resource
-import com.flatstack.mytddapplication.entities.RespBase
 
-abstract class NetworkBoundResource<ResultType, RequestType : RespBase>(private val appExecutors: AppExecutors) {
+abstract class NetworkBoundResource<ResultType, RequestType>(private val appExecutors: AppExecutors) {
 
     private val result = MediatorLiveData<Resource<ResultType>>()
 

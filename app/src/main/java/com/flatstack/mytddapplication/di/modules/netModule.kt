@@ -2,6 +2,7 @@ package com.flatstack.mytddapplication.di.modules
 
 import com.flatstack.mytddapplication.BuildConfig
 import com.flatstack.mytddapplication.api.interceptors.AuthInterceptor
+import com.flatstack.mytddapplication.api.interceptors.ErrorInterceptor
 import com.flatstack.mytddapplication.api.interceptors.LoggingInterceptor
 import com.flatstack.mytddapplication.api.services.MovieService
 import com.flatstack.mytddapplication.api.util.LiveDataCallAdapterFactory
@@ -19,9 +20,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 val netModule = Kodein.Module(name = "apiModule") {
     bind<Interceptor>(tag = "logging") with singleton { LoggingInterceptor() }
     bind<Interceptor>(tag = "auth") with singleton { AuthInterceptor() }
+    bind<Interceptor>(tag = "error") with singleton { ErrorInterceptor() }
 
     bind<Gson>() with singleton { provideGson() }
-    bind<OkHttpClient>() with singleton { provideOkHttpClient(instance(tag = "logging"), instance(tag = "auth")) }
+    bind<OkHttpClient>() with singleton {
+        provideOkHttpClient(instance(tag = "logging"), instance(tag = "auth"), instance(tag = "error"))
+    }
     bind<Retrofit>() with singleton { provideRetrofit(instance(), instance()) }
 
     bind<MovieService>() with singleton { instance<Retrofit>().create(MovieService::class.java) }
@@ -32,9 +36,14 @@ private fun provideGson() =
         .setDateFormat("dd MMM yyyy")
         .create()
 
-private fun provideOkHttpClient(loggingInterceptor: Interceptor, authInterceptor: Interceptor) =
+private fun provideOkHttpClient(
+    loggingInterceptor: Interceptor,
+    authInterceptor: Interceptor,
+    errorInterceptor: Interceptor
+) =
     OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
+        .addInterceptor(errorInterceptor)
         .addInterceptor(authInterceptor)
         .build()
 
