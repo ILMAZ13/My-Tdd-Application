@@ -43,14 +43,14 @@ jobs:
     <<: *android_config
     steps:
       - checkout
-      - *restore_cache
       - *configure_git
-#      - checkout
+      - checkout
+      - *restore_cache
       - run:
           name: What inside
           command: |
-            cat secure.properties
-            cat app/build.gradle
+            echo $SECURE_PASSWORD
+            echo key_is
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
