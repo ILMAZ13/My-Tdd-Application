@@ -5,7 +5,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
 
-class AuthIntercepor : Interceptor {
+class AuthInterceptor : Interceptor {
     companion object {
         const val API_KEY_NAME: String = "apikey"
     }
