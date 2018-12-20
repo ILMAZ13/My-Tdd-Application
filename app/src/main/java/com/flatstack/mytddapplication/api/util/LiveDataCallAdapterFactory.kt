@@ -2,6 +2,7 @@ package com.flatstack.mytddapplication.api.util
 
 import androidx.lifecycle.LiveData
 import com.flatstack.mytddapplication.api.ApiResponse
+import com.flatstack.mytddapplication.entities.RespBase
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
@@ -21,6 +22,6 @@ class LiveDataCallAdapterFactory : CallAdapter.Factory() {
             throw IllegalArgumentException("ApiResponse must be parameterized")
         }
         val bodyType = getParameterUpperBound(0, observableType)
-        return LiveDataCallAdapter<Any>(bodyType)
+        return LiveDataCallAdapter<RespBase>(bodyType)
     }
 }

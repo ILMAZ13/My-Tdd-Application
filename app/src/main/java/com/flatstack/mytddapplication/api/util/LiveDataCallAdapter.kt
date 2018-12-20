@@ -2,6 +2,7 @@ package com.flatstack.mytddapplication.api.util
 
 import androidx.lifecycle.LiveData
 import com.flatstack.mytddapplication.api.ApiResponse
+import com.flatstack.mytddapplication.entities.RespBase
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
@@ -9,7 +10,7 @@ import retrofit2.Response
 import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicBoolean
 
-class LiveDataCallAdapter<R>(private val responseType: Type) : CallAdapter<R, LiveData<ApiResponse<R>>> {
+class LiveDataCallAdapter<R : RespBase>(private val responseType: Type) : CallAdapter<R, LiveData<ApiResponse<R>>> {
 
     override fun responseType() = responseType
 

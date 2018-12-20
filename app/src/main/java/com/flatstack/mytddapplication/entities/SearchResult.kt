@@ -7,7 +7,7 @@ data class SearchResult(
     val search: List<Movie>,
     @SerializedName("totalResults")
     val totalResults: Int
-) {
+) : RespBase() {
     data class Movie(
         @SerializedName("imdbID")
         val imdbID: String,

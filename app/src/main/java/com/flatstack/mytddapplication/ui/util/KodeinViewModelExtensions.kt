@@ -28,6 +28,8 @@ inline fun <reified VM : ViewModel, T> T.provideViewModelWithActivity(): Lazy<VM
     }
 }
 
-inline fun <reified T : ViewModel> Kodein.Builder.bindViewModel(overrides: Boolean? = null): Kodein.Builder.TypeBinder<T> {
+inline fun <reified T : ViewModel> Kodein.Builder.bindViewModel(
+    overrides: Boolean? = null
+): Kodein.Builder.TypeBinder<T> {
     return bind<T>(T::class.java.simpleName, overrides)
 }

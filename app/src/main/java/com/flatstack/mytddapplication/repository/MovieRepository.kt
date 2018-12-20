@@ -43,7 +43,9 @@ class MovieRepository(
             .setPageSize(PAGE_SIZE)
             .setEnablePlaceholders(false)
             .build()
-        val livePagedList = LivePagedListBuilder<Int, SearchResult.Movie>(sourceFactory, config).build()
+        val livePagedList = LivePagedListBuilder<Int, SearchResult.Movie>(sourceFactory, config)
+            .setFetchExecutor(appExecutors.mainThread)
+            .build()
 
         return Listing(
             pagedList = livePagedList,

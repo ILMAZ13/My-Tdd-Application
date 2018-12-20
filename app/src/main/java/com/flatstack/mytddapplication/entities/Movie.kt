@@ -56,7 +56,7 @@ data class Movie(
     val production: String,
     @SerializedName("Website")
     val website: String
-) {
+) : RespBase() {
     data class Rating(
         @SerializedName("Source")
         val source: String,
