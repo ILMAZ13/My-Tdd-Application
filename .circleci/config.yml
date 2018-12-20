@@ -125,7 +125,7 @@ workflows:
           filters:
             tags:
               only: /^.*/
-      - deploy_staging:
+      - deploy_beta:
           requires:
             - check_style
             - test_unit
