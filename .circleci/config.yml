@@ -47,6 +47,11 @@ jobs:
       - *configure_git
 #      - checkout
       - run:
+          name: What inside
+          command: |
+            cat secure.properties
+            cat app/build.gradle
+      - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - *save_cache
