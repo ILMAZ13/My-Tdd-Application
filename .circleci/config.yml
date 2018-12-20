@@ -33,10 +33,17 @@ references:
     environment:
       JVM_OPTS: -Xmx3200m
 
+  configure_git: &configure_git
+    run:
+        name: Configuring git
+        command: ./configure_git.sh
+
 jobs:
   build:
     <<: *android_config
     steps:
+      - checkout
+      - *configure_git
       - checkout
       - *restore_cache
       - run:
@@ -48,6 +55,8 @@ jobs:
   check_style:
       <<: *android_config
       steps:
+        - checkout
+        - *configure_git
         - checkout
         - *attach_release_workspace
         - *restore_cache
