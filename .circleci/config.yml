@@ -44,13 +44,12 @@ jobs:
     steps:
       - checkout
       - *configure_git
-      - checkout
+#      - checkout
       - *restore_cache
       - run:
           name: What inside
           command: |
-            echo $SECURE_PASSWORD
-            echo key_is
+            git config filter.private.smudge
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
