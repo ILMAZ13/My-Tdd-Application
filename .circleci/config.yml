@@ -36,13 +36,13 @@ references:
   configure_git: &configure_git
     run:
         name: Configuring git
-        command: ./configure_git.sh
+        command: |
+          git config --global filter.private.smudge "openssl enc -d -aes-256-cbc -nosalt -a -k $SECURE_PASSWORD"
 
 jobs:
   build:
     <<: *android_config
     steps:
-      - checkout
       - *configure_git
       - checkout
       - *restore_cache
@@ -55,7 +55,6 @@ jobs:
   check_style:
       <<: *android_config
       steps:
-        - checkout
         - *configure_git
         - checkout
         - *attach_release_workspace
@@ -81,7 +80,6 @@ jobs:
   test_unit:
         <<: *android_config
         steps:
-          - checkout
           - *configure_git
           - checkout
           - *attach_release_workspace
@@ -99,7 +97,6 @@ jobs:
   deploy_beta:
       <<: *android_config
       steps:
-        - checkout
         - *configure_git
         - checkout
         - *attach_release_workspace
