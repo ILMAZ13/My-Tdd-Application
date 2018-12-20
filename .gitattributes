@@ -1,1 +1,2 @@
 secure.properties filter=private diff=private
+app/fabric.properties filter=private diff=private

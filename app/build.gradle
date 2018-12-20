@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'gnag'
+apply plugin: 'io.fabric'
 
 def securePropertiesFile = rootProject.file("secure.properties")
 def secureProperties = new Properties()
@@ -18,15 +19,25 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        release {
+            keyAlias secureProperties['keyAlias']
+            keyPassword secureProperties['keyPassword']
+            storeFile file(secureProperties['storeFile'])
+            storePassword secureProperties['storePassword']
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     buildTypes.each {
         it.buildConfigField 'String', 'BASE_URL', baseUrl
         it.buildConfigField 'String', 'OMDB_API_KEY', secureProperties['omdbApiKey']
+        it.manifestPlaceholders = [fabric_key:secureProperties['fabric_key']]
     }
 }
 
@@ -62,6 +73,10 @@ dependencies {
     //Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    //Fabric
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.7@aar') {
+        transitive = true
+    }
 
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
@@ -104,5 +119,11 @@ gnag {
 
     github {
         repoName 'ILMAZ13/My-Tdd-Application'
+    }
+}
+
+tasks.withType(Test) {
+    testLogging {
+        events "started", "passed", "skipped", "failed"
     }
 }

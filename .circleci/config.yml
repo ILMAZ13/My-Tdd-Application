@@ -64,11 +64,12 @@ jobs:
             name: Run Checkstyle
             command: >
               if [[ -z "${CI_PULL_REQUEST}" ]]; then
-                ./gradlew clean gnagCheck
+                ./gradlew clean gnagCheck -x test
               else
                 ./gradlew clean gnagReport \
                   -PauthToken="${PR_BOT_AUTH_TOKEN}" \
-                  -PissueNumber="${CI_PULL_REQUEST##*/}"
+                  -PissueNumber="${CI_PULL_REQUEST##*/}" \
+                  -x test
               fi
         - store_artifacts:
             path: app/build/reports/
@@ -76,16 +77,37 @@ jobs:
         - store_artifacts:
             path: app/build/outputs/gnag
             destination: /reports-gnag/
-#      test
-#      - run:
-#          name: Run Tests
-#          command: ./gradlew lint test
-#      - store_artifacts:
-#          path: app/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: app/build/test-results
-      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+
+  test_unit:
+        <<: *android_config
+        steps:
+          - checkout
+          - *configure_git
+          - checkout
+          - *attach_release_workspace
+          - *restore_cache
+          - run:
+              name: Run tests
+              command: ./gradlew test
+          - store_artifacts:
+              path: app/build/reports/
+              destination: /reports/
+          - store_test_results:
+              path: app/build/test-results/
+              destination: /test-results/
+
+  deploy_beta:
+      <<: *android_config
+      steps:
+        - checkout
+        - *configure_git
+        - checkout
+        - *attach_release_workspace
+        - *restore_cache
+        - run:
+            name: Deploy Fabric Beta
+            command: ./gradlew assembleRelease crashlyticsUploadDistributionRelease
+
 workflows:
   version: 2
   workflow:
@@ -100,9 +122,18 @@ workflows:
           filters:
             tags:
               only: /^.*/
-#      - test_unit:
-#          requires:
-#              - build
-#          filters:
-#            tags:
-#              only: /^.*/
+      - test_unit:
+          requires:
+              - build
+          filters:
+            tags:
+              only: /^.*/
+      - deploy_staging:
+          requires:
+            - check_style
+            - test_unit
+          filters:
+            tags:
+              only: /^v{0,1}\d+[.]\d+[.]\d+$/
+            branches:
+              ignore: /^.*/
