@@ -36,7 +36,8 @@ references:
   configure_git: &configure_git
     run:
         name: Configuring git
-        command: ./configure_git.sh
+        command: |
+          git config --global filter.private.smudge "openssl enc -d -aes-256-cbc -nosalt -a -k $SECURE_PASSWORD"
 
 jobs:
   build:
