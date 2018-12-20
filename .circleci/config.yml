@@ -42,8 +42,8 @@ jobs:
   build:
     <<: *android_config
     steps:
-      - checkout
       - *configure_git
+      - checkout
 #      - checkout
       - *restore_cache
       - run:
