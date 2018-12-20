@@ -43,9 +43,9 @@ jobs:
     <<: *android_config
     steps:
       - checkout
+      - *restore_cache
       - *configure_git
 #      - checkout
-      - *restore_cache
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
