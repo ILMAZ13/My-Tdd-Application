@@ -45,7 +45,6 @@ jobs:
     steps:
       - *configure_git
       - checkout
-#      - checkout
       - *restore_cache
       - run:
           name: Download Dependencies
@@ -56,9 +55,8 @@ jobs:
   check_style:
       <<: *android_config
       steps:
-        - checkout
         - *configure_git
-#        - checkout
+        - checkout
         - *attach_release_workspace
         - *restore_cache
         - run:
@@ -82,9 +80,8 @@ jobs:
   test_unit:
         <<: *android_config
         steps:
-          - checkout
           - *configure_git
-#          - checkout
+          - checkout
           - *attach_release_workspace
           - *restore_cache
           - run:
@@ -100,9 +97,8 @@ jobs:
   deploy_beta:
       <<: *android_config
       steps:
-        - checkout
         - *configure_git
-#        - checkout
+        - checkout
         - *attach_release_workspace
         - *restore_cache
         - run:
