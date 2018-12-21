@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'gnag'
 apply plugin: 'io.fabric'
+apply plugin: "androidx.navigation.safeargs"
 
 def securePropertiesFile = rootProject.file("secure.properties")
 def secureProperties = new Properties()
@@ -18,6 +19,7 @@ android {
         versionCode 2
         versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
         release {
@@ -37,23 +39,24 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'BASE_URL', baseUrl
         it.buildConfigField 'String', 'OMDB_API_KEY', secureProperties['omdbApiKey']
-        it.manifestPlaceholders = [fabric_key:secureProperties['fabric_key']]
+        it.manifestPlaceholders = [fabric_key: secureProperties['fabric_key']]
     }
 }
 
 ext {
     kodein_version = "6.0.1"
-    retrofit_version="2.5.0"
-    okhttp_version="3.12.0"
+    retrofit_version = "2.5.0"
+    okhttp_version = "3.12.0"
     room_version = "2.1.0-alpha03"
     paging_version = "2.1.0-rc01"
     glide_version = "4.8.0"
     lifecycle_version = "2.0.0"
+    nav_version = "1.0.0-alpha08"
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //Kodein
     implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
     implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
@@ -73,11 +76,16 @@ dependencies {
     //Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    //Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
     //Fabric
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.7@aar') {
         transitive = true
     }
 
+    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0-alpha01'
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     testImplementation 'junit:junit:4.12'

@@ -1,6 +1,7 @@
 package com.flatstack.mytddapplication.di.modules
 
 import androidx.lifecycle.ViewModelProvider
+import com.flatstack.mytddapplication.ui.movie.MovieViewModel
 import com.flatstack.mytddapplication.ui.search.SearchViewModel
 import com.flatstack.mytddapplication.ui.util.ViewModelFactory
 import com.flatstack.mytddapplication.ui.util.bindViewModel
@@ -14,4 +15,5 @@ val viewModelModule = Kodein.Module(name = "viewModelModule") {
     bind<ViewModelProvider.Factory>() with singleton { ViewModelFactory(dkodein) }
 
     bindViewModel<SearchViewModel>() with provider { SearchViewModel(instance()) }
+    bindViewModel<MovieViewModel>() with provider { MovieViewModel(instance()) }
 }
