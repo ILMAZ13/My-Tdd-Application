@@ -8,7 +8,7 @@ import com.flatstack.mytddapplication.entities.Movie
 
 @Database(
     entities = [Movie::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(value = [DbTypeConverters::class])

@@ -18,5 +18,6 @@ interface MovieService {
         @Query("page") page: Int = 1
     ): LiveData<ApiResponse<SearchResult>>
 
+    @GET("/")
     fun findById(@Query("i") id: String): LiveData<ApiResponse<Movie>>
 }

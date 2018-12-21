@@ -26,7 +26,7 @@ object DbTypeConverters {
     @TypeConverter
     @JvmStatic
     fun fromRatingListToString(ratingList: List<Movie.Rating>): String =
-        Gson().toJson(ratingList, Array<Movie.Rating>::class.java)
+        Gson().toJson(ratingList.toTypedArray(), Array<Movie.Rating>::class.java)
 
     @TypeConverter
     @JvmStatic

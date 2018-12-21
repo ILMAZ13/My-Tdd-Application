@@ -49,7 +49,7 @@ data class Movie(
     @SerializedName("Type")
     val type: MovieType,
     @SerializedName("DVD")
-    val dvd: Date,
+    val dvd: String,
     @SerializedName("BoxOffice")
     val boxOffice: String,
     @SerializedName("Production")
