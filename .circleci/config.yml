@@ -63,9 +63,9 @@ jobs:
             name: Run Checkstyle
             command: >
               if [[ -z "${CI_PULL_REQUEST}" ]]; then
-                ./gradlew clean gnagCheck -x test
+                ./gradlew gnagCheck -x test
               else
-                ./gradlew clean gnagReport \
+                ./gradlew gnagReport \
                   -PauthToken="${PR_BOT_AUTH_TOKEN}" \
                   -PissueNumber="${CI_PULL_REQUEST##*/}" \
                   -x test
