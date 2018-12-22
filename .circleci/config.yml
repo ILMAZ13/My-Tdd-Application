@@ -45,9 +45,6 @@ jobs:
     steps:
       - *configure_git
       - checkout
-      - run:
-          name: Decrypt test
-          command: cat secure.properties
       - *restore_cache
       - run:
           name: Download Dependencies
