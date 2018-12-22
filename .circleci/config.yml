@@ -37,7 +37,7 @@ references:
     run:
         name: Configuring git
         command: |
-          git config --global filter.private.smudge "openssl enc -d -aes-256-cbc -nosalt -a -k $SECURE_PASSWORD"
+          git config --global filter.private.smudge "openssl aes-256-cbc -d -md sha256 -nosalt -a -pass pass:$SECURE_PASSWORD"
 
 jobs:
   build:
@@ -45,6 +45,9 @@ jobs:
     steps:
       - *configure_git
       - checkout
+      - run:
+          name: Decrypt test
+          command: cat secure.properties
       - *restore_cache
       - run:
           name: Download Dependencies
