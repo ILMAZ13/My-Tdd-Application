@@ -126,6 +126,7 @@ workflows:
             tags:
               only: /^.*/
       - deploy_beta:
+          type: approval
           requires:
             - check_style
             - test_unit
