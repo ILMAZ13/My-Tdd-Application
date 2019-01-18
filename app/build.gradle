@@ -41,6 +41,10 @@ android {
         it.buildConfigField 'String', 'OMDB_API_KEY', secureProperties['omdbApiKey']
         it.manifestPlaceholders = [fabric_key: secureProperties['fabric_key']]
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 ext {
@@ -51,7 +55,7 @@ ext {
     paging_version = "2.1.0-rc01"
     glide_version = "4.8.0"
     lifecycle_version = "2.0.0"
-    nav_version = "1.0.0-alpha08"
+    nav_version = "1.0.0-alpha09"
 }
 
 dependencies {
@@ -87,7 +91,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha02'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0-alpha01'
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
@@ -127,6 +131,8 @@ gnag {
 
     github {
         repoName 'ILMAZ13/My-Tdd-Application'
+        setCommentInline true
+        setCommentOnSuccess true
     }
 }
 
